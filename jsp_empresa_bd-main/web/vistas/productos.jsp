@@ -1,3 +1,4 @@
+<%@page import="modelo.Menu"%>
 <%@page import="modelo.Producto"%>
 <%@page import="modelo.Marca"%>
 <%@page import="modelo.Clientes"%>
@@ -44,14 +45,22 @@
                             Menú
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="puestos.jsp">Puestos</a>                            
+                            <%--<a class="dropdown-item" href="puestos.jsp">Puestos</a>                            
                             <a class="dropdown-item" href="empleados.jsp">Empleados</a>
                             <a class="dropdown-item" href="clientes.jsp">Clientes</a>
                             <a class="dropdown-item" href="proveedores.jsp">Proveedores</a>
                             <a class="dropdown-item" href="marcas.jsp">Marcas</a>
                             <a class="dropdown-item" href="productos.jsp">Productos</a>
                             <a class="dropdown-item" href="ventas.jsp">Ventas</a>
-                            <a class="dropdown-item" href="compras.jsp">Compras</a>
+                            <a class="dropdown-item" href="compras.jsp">Compras</a>--%>
+                            
+                            <%
+                                Menu menu = new Menu();
+                                HashMap<String, String> dr = menu.drop();
+                                for (String i : dr.keySet()) {
+                                    out.println("<a class='dropdown-item' href='" + i + ".jsp'>" + i.toUpperCase() + "</a>");
+                                }
+                            %>
 
                         </div>
                     </li>

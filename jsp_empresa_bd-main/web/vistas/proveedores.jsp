@@ -1,6 +1,7 @@
 
 
 
+<%@page import="modelo.Menu"%>
 <%@page import="modelo.Proveedores"%>
 <%@page import="modelo.Puesto"%>
 <%@page import="java.util.HashMap" %>
@@ -45,14 +46,22 @@
                             Menú
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="puestos.jsp">Puestos</a>
+                            <%-- <a class="dropdown-item" href="puestos.jsp">Puestos</a>
                             <a class="dropdown-item" href="empleados.jsp">Empleados</a>
                             <a class="dropdown-item" href="clientes.jsp">Clientes</a>
                             <a class="dropdown-item" href="proveedores.jsp">Proveedores</a>
                             <a class="dropdown-item" href="marcas.jsp">Marcas</a>
                             <a class="dropdown-item" href="productos.jsp">Productos</a>
                             <a class="dropdown-item" href="ventas.jsp">Ventas</a>
-                            <a class="dropdown-item" href="compras.jsp">Compras</a>
+                            <a class="dropdown-item" href="compras.jsp">Compras</a> --%>
+                            
+                            <%
+                                Menu menu = new Menu();
+                                HashMap<String, String> dr = menu.drop();
+                                for (String i : dr.keySet()) {
+                                    out.println("<a class='dropdown-item' href='" + i + ".jsp'>" + i.toUpperCase() + "</a>");
+                                }
+                            %>
                             
                         </div>
                     </li>
@@ -65,6 +74,7 @@
             <h1>Formulario Proveedores</h1>
 
             <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal_proveedor" onclick="limpiar()">Nuevo</button>
+            <a class="btn btn-danger " href="compras.jsp">Ingresar Compra</a> 
 
             <div class="modal fade" id="modal_proveedor" role="dialog">
                 <div class="modal-dialog">

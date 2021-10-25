@@ -1,4 +1,7 @@
 
+<%@page import="modelo.Menu"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="modelo.Puesto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     if (session.getAttribute("usuario") != null) {
@@ -42,14 +45,21 @@
                             Menú
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="puestos.jsp">Puestos</a>
+                            <%--<a class="dropdown-item" href="puestos.jsp">Puestos</a>
                             <a class="dropdown-item" href="empleados.jsp">Empleados</a>
                             <a class="dropdown-item" href="clientes.jsp">Clientes</a>
                             <a class="dropdown-item" href="proveedores.jsp">Proveedores</a>
                             <a class="dropdown-item" href="marcas.jsp">Marcas</a>
                             <a class="dropdown-item" href="productos.jsp">Productos</a>
                             <a class="dropdown-item" href="ventas.jsp">Ventas</a>
-                            <a class="dropdown-item" href="compras.jsp">Compras</a>
+                            <a class="dropdown-item" href="compras.jsp">Compras</a>--%>
+                            <%
+                                Menu menu = new Menu();
+                                HashMap<String, String> drop = menu.drop();
+                                for (String i : drop.keySet()) {
+                                    out.println("<a class='dropdown-item' href='" + i + ".jsp'>" + i.toUpperCase() + "</a>");
+                                }
+                            %>
 
                         </div>
                     </li>
@@ -60,8 +70,8 @@
                     </li>
                     <li class="nav-item">
                         <form action="../login" method="post">
-                           <button name="btn_cerrar" id="btn_cerrar"  value="cerrar" class="btn btn-primary ">Cerrar Sesión</button>
-                                
+                            <button name="btn_cerrar" id="btn_cerrar"  value="cerrar" class="btn btn-primary ">Cerrar Sesión</button>
+
                         </form>
 
 

@@ -1,5 +1,8 @@
+
+
+
 <%@page import="modelo.Menu"%>
-<%@page import="modelo.Clientes"%>
+<%@page import="modelo.Proveedores"%>
 <%@page import="modelo.Puesto"%>
 <%@page import="java.util.HashMap" %>
 <%@page import="javax.swing.table.DefaultTableModel" %>
@@ -8,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Clientes</title>
+        <title>Reporte Proveedores</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
         <style>
             body{
@@ -23,7 +26,7 @@
 
     </head>
     <body>
-
+        
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand" href="inicio.jsp">Empresa</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,23 +46,23 @@
                             Menú
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <%--<a class="dropdown-item" href="puestos.jsp">Puestos</a>
-                            <a class="dropdown-item" href="clientes.jsp">Clientes</a>
+                            <%-- <a class="dropdown-item" href="puestos.jsp">Puestos</a>
+                            <a class="dropdown-item" href="empleados.jsp">Empleados</a>
                             <a class="dropdown-item" href="clientes.jsp">Clientes</a>
                             <a class="dropdown-item" href="proveedores.jsp">Proveedores</a>
                             <a class="dropdown-item" href="marcas.jsp">Marcas</a>
                             <a class="dropdown-item" href="productos.jsp">Productos</a>
                             <a class="dropdown-item" href="ventas.jsp">Ventas</a>
-                            <a class="dropdown-item" href="compras.jsp">Compras</a>--%>
+                            <a class="dropdown-item" href="compras.jsp">Compras</a> --%>
+                            
                             <%
                                 Menu menu = new Menu();
-                                HashMap<String, String> drop = menu.drop();
-                                for (String i : drop.keySet()) {
+                                HashMap<String, String> dr = menu.drop();
+                                for (String i : dr.keySet()) {
                                     out.println("<a class='dropdown-item' href='" + i + ".jsp'>" + i.toUpperCase() + "</a>");
                                 }
                             %>
                             
-
                         </div>
                     </li>
                 </ul>
@@ -68,50 +71,34 @@
 
 
         <div class="container">
-            <h1>Formulario Clientes</h1>
+            <h1>Reporte Proveedores</h1>
 
-            <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal_cliente" onclick="limpiar()">Nuevo</button>
-            <a class="btn btn-danger " href="ventas.jsp">Ingresar Venta</a> 
-
-            <div class="modal fade" id="modal_cliente" role="dialog">
+            
+            <a  class="btn btn-success " href="javascript:window.print()"> Imprimir</a>
+            
+            <div class="modal fade" id="modal_proveedor" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="../sr_clientes" method="post" class="form-group">
+                            <form action="../sr_proveedores" method="post" class="form-group">
                                 <label for="lbl_id" ><b>ID</b></label>
                                 <input type="text" name="txt_id" id="txt_id" class="form-control" value="0"  readonly> 
+                                <label for="lbl_codigo" ><b>Proveedor</b></label>
+                                <input type="text" name="txt_proveedor" id="txt_proveedor" class="form-control" placeholder="proveedor1"  required>
 
-                                <label for="lbl_nombres" ><b>Nombres</b></label>
-                                <input type="text" name="txt_nombres" id="txt_nombres" class="form-control" placeholder="Ejemplo: Nombre1 Nombre2" required>
+                                <label for="lbl_nombres" ><b>NIT</b></label>
+                                <input type="text" name="txt_NIT" id="txt_NIT" class="form-control" placeholder="123" required>
 
-                                <label for="lbl_apellidos" ><b>Apellidos</b></label>
-                                <input type="text" name="txt_apellidos" id="txt_apellidos" class="form-control" placeholder="Ejemplo: Apellido1 Apellido2" required>
-
-                                <label for="lbl_direccion" ><b>NIT</b></label>
-                                <input type="text"  name="txt_NIT" id="txt_NIT" class="form-control" placeholder="NIT" required>
-
-                                <label for="lbl_genero" ><b>Genero</b></label>
-                                <select name="drop_genero" id="drop_genero" class="form-select">
-                                    <option value="0">MASCULINO</option>
-                                    <option value="1">FEMENIMO</option>
-
-                                </select>
+                                <label for="lbl_direccion" ><b>Direccion</b></label>
+                                <input type="text"  name="txt_direccion" id="txt_direccion" class="form-control" placeholder="Ejemplo: #Casa calle zona ciudad" required>
 
                                 <label for="lbl_telefono" ><b>Telefono</b></label>
                                 <input type="number" name="txt_telefono" id="txt_telefono" class="form-control" placeholder="Ejemplo: 5555555" required>
 
-                                <label for="lbl_email" ><b>Email</b></label>
-                                <input type="email" name="txt_email" id="txt_email" class="form-control" placeholder="correo@gmail.com" required>
-
-
-                                <label for="lbl_fn" ><b>Ingreso</b></label>
-                                <input type="datetime"  name="txt_ingreso" id="txt_ingreso" class="form-control" >
-
-
                                 <br>
-                                 <div class="row">
+                                <div class="row">
                                     <div class="col-md-3">
                                         <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary ">Agregar</button>
                                     </div>
@@ -141,31 +128,23 @@
             <table class="table table-striped table-dark">
                 <thead>
                     <tr>
-
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
+                        <th>Proveedor</th>
                         <th>NIT</th>
-                        <th>Genero</th>
+                        <th>Direccion</th>
                         <th>Telefono</th>
-                        <th>Email</th>
-                        <th>Ingreso</th>
                     </tr>
                 </thead>
-                <tbody id="tbl_clientes">
+                <tbody id="">
                     <%
-                        Clientes cliente = new Clientes();
+                        Proveedores proveedor = new Proveedores();
                         DefaultTableModel tabla = new DefaultTableModel();
-                        tabla = cliente.leer();
+                        tabla = proveedor.leer();
                         for (int t = 0; t < tabla.getRowCount(); t++) {
                             out.println("<tr data-id=" + tabla.getValueAt(t, 0) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
-                            out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
-                            out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
-
-                            out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
                             out.println("</tr>");
 
                         }
@@ -182,37 +161,29 @@
         <script type="text/javascript">
                                     function limpiar() {
                                         $("#txt_id").val(0);
-                                        $("#txt_nombres").val('');
-                                        $("#txt_apellidos").val('');
+                                        $("#txt_proveedor").val('');
                                         $("#txt_NIT").val('');
-                                        $("#drop_genero").val(0);
+                                        $("#txt_direccion").val('');
                                         $("#txt_telefono").val('');
-                                        $("#txt_email").val('');
-                                        $("#txt_ingreso").val('');
                                     }
 
-                                    $('#tbl_clientes').on('click', 'tr td', function (evt) {
-                                        var target, id, nombres, apellidos, NIT, genero, telefono, email, ingreso;
+                                    $('#tbl_proveedors').on('click', 'tr td', function (evt) {
+                                        var target, id, proveedor, NIT, direccion, telefono;
                                         target = $(event.target);
                                         id = target.parent().data('id');
-                                        nombres = target.parent("tr").find("td").eq(0).html();
-                                        apellidos = target.parent("tr").find("td").eq(1).html();
-                                        NIT = target.parent("tr").find("td").eq(2).html();
-                                        genero = target.parent("tr").find("td").eq(3).html();
-                                        telefono = target.parent("tr").find("td").eq(4).html();
-                                        email = target.parent("tr").find("td").eq(5).html();
-                                        ingreso = target.parent("tr").find("td").eq(6).html();
 
+                                        proveedor = target.parent("tr").find("td").eq(0).html();
+                                        NIT = target.parent("tr").find("td").eq(1).html();
+
+                                        direccion = target.parent("tr").find("td").eq(2).html();
+                                        telefono = target.parent("tr").find("td").eq(3).html();
                                         $("#txt_id").val(id);
-                                        $("#txt_nombres").val(nombres);
-                                        $("#txt_apellidos").val(apellidos);
+                                        $("#txt_proveedor").val(proveedor);
                                         $("#txt_NIT").val(NIT);
-                                        $("#drop_genero").val(genero);
+                                        $("#txt_direccion").val(direccion);
                                         $("#txt_telefono").val(telefono);
-                                        $("#txt_email").val(email);
-                                        $("#txt_ingreso").val(ingreso);
 
-                                        $("#modal_cliente").modal('show');
+                                        $("#modal_proveedor").modal('show');
                                     });
 
         </script>

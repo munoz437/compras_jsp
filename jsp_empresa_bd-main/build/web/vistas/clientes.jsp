@@ -1,3 +1,4 @@
+<%@page import="modelo.Menu"%>
 <%@page import="modelo.Clientes"%>
 <%@page import="modelo.Puesto"%>
 <%@page import="java.util.HashMap" %>
@@ -42,14 +43,21 @@
                             Menú
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="puestos.jsp">Puestos</a>
+                            <%--<a class="dropdown-item" href="puestos.jsp">Puestos</a>
                             <a class="dropdown-item" href="clientes.jsp">Clientes</a>
                             <a class="dropdown-item" href="clientes.jsp">Clientes</a>
                             <a class="dropdown-item" href="proveedores.jsp">Proveedores</a>
                             <a class="dropdown-item" href="marcas.jsp">Marcas</a>
                             <a class="dropdown-item" href="productos.jsp">Productos</a>
                             <a class="dropdown-item" href="ventas.jsp">Ventas</a>
-                            <a class="dropdown-item" href="compras.jsp">Compras</a>
+                            <a class="dropdown-item" href="compras.jsp">Compras</a>--%>
+                            <%
+                                Menu menu = new Menu();
+                                HashMap<String, String> drop = menu.drop();
+                                for (String i : drop.keySet()) {
+                                    out.println("<a class='dropdown-item' href='" + i + ".jsp'>" + i.toUpperCase() + "</a>");
+                                }
+                            %>
                             
 
                         </div>
@@ -63,6 +71,7 @@
             <h1>Formulario Clientes</h1>
 
             <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal_cliente" onclick="limpiar()">Nuevo</button>
+            <a class="btn btn-danger " href="ventas.jsp">Ingresar Venta</a> 
 
             <div class="modal fade" id="modal_cliente" role="dialog">
                 <div class="modal-dialog">

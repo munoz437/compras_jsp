@@ -2,8 +2,6 @@
 
 
 <%@page import="modelo.Menu"%>
-<%@page import="modelo.Compras"%>
-<%@page import="modelo.Proveedores"%>
 <%@page import="modelo.Producto"%>
 <%@page import="modelo.Empleado"%>
 <%@page import="modelo.Clientes"%>
@@ -16,7 +14,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Compras</title>
+        <title>Reporte Ventas</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
         <style>
             body{
@@ -58,7 +56,8 @@
                             <a class="dropdown-item" href="marcas.jsp">Marcas</a>
                             <a class="dropdown-item" href="productos.jsp">Productos</a>
                             <a class="dropdown-item" href="ventas.jsp">Ventas</a>
-<a class="dropdown-item" href="compras.jsp">Compras</a>--%>
+<a class="dropdown-item" href="compras.jsp">Compras</a> --%>
+                            
                             <%
                                 Menu menu = new Menu();
                                 HashMap<String, String> dr = menu.drop();
@@ -75,20 +74,19 @@
 
 
         <div class="container">
-            <h1>Formulario Compras</h1>
+            <h1>Reporte  Ventas</h1>
 
-            <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal_proveedor" onclick="limpiar()">Nuevo</button>
-
-            <a class="btn btn-danger " href="proveedores.jsp">Ingresar Proveedores</a> 
-
-
+           
+            <a  class="btn btn-success " href="javascript:window.print()"> Imprimir</a>
+            
+            
             <div class="modal fade" id="modal_proveedor" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="../sr_compras" method="post" class="form-group">
+                            <form action="../sr_ventas" method="post" class="form-group">
 
                                 <div class="row">
                                     <div class="col">
@@ -96,15 +94,29 @@
                                         <input type="text" name="txt_id" id="txt_id" class="form-control form-control-sm" value="0"  readonly> 
                                     </div>
                                     <div class="col">
-                                        <label for="lbl_factura" ><b>No. Orden</b></label>
-                                        <input type="number" name="txt_orden" id="txt_orden" class="form-control form-control-sm" placeholder="001" required>
+                                        <label for="lbl_factura" ><b>No.Factura</b></label>
+                                        <input type="number" name="txt_factura" id="txt_factura" class="form-control form-control-sm" placeholder="001" required>
                                     </div>
                                     <div class="col">
-                                        <label for="lbl_proveedor" ><b>Proveedor</b></label>
-                                        <select name="drop_proveedor" id="drop_proveedor" class="form-select form-select-sm">
+                                        <label for="lbl_codigo" ><b>Serie</b></label>
+                                        <input type="text" name="txt_serie" id="txt_serie" class="form-control form-control-sm" placeholder="F" maxlength="1" required>
+
+                                    </div>
+                                </div>
+
+                                <label for="lbl_nombres" ><b>Fecha-Factura</b></label>
+                                <input type="date" name="txt_fecha" id="txt_fecha" class="form-control form-control-sm"  required>
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="lbl_puesto" >
+                                            <b>Cliente-NIT</b>
+                                        </label>
+                                        <select name="drop_cliente" id="drop_cliente" class="form-select form-select-sm">
                                             <%
-                                                Proveedores proveedor = new Proveedores();
-                                                HashMap<String, String> drop = proveedor.drop();
+                                                Clientes cliente = new Clientes();
+                                                HashMap<String, String> drop = cliente.drop();
                                                 for (String i : drop.keySet()) {
                                                     out.println("<option value='" + i + "'>" + drop.get(i) + "</option>");
                                                 }
@@ -112,29 +124,38 @@
 
                                             %>
                                         </select>  
+
+                                    </div>
+                                    <div class="col">
+                                        <label for="lbl_puesto" >
+                                            <b>Empleado</b> 
+                                        </label>
+                                        <select name="drop_empleado" id="drop_empleado" class="form-select form-select-sm">
+                                            <%                                        Empleado empleado = new Empleado();
+                                                HashMap<String, String> drop2 = empleado.drop();
+                                                for (String i : drop2.keySet()) {
+                                                    out.println("<option value='" + i + "'>" + drop2.get(i) + "</option>");
+                                                }
+
+                                            %>
+                                        </select>     
+
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <label for="lbl_fecha" ><b>Fecha-Orden</b></label>
-                                        <input type="date" name="txt_fecha" id="txt_fecha" class="form-control form-control-sm"  required>
-                                    </div>
-                                    <div class="col">
-                                        <label for="lbl_ingreso" ><b>Fecha-Ingreso</b></label>
-                                        <input type="datetime"  name="txt_ingreso" id="txt_ingreso" class="form-control form-control-sm" required>
-                                    </div>
-                                </div>
+                               
+
+                                <label for="lbl_direccion" ><b>Fecha-Ingreso</b></label>
+                                <input type="datetime"  name="txt_ingreso" id="txt_ingreso" class="form-control form-control-sm" required>
 
 
-
-                                <h5>Detalle Compra</h5>
-                                <%-- DETALLE Compra --%>
+                                <%-- DETALLE FACTURA --%>
                                 <div class="row">
                                     <div class="col">
                                         <label for="lbl_puesto" ><b>Producto</b></label>
                                         <select name="drop_producto" id="drop_producto" class="form-select form-select-sm">
-                                            <%                                                Producto producto = new Producto();
+                                            <%                                        
+                                                Producto producto = new Producto();
                                                 HashMap<String, String> drop3 = producto.drop();
                                                 for (String i : drop3.keySet()) {
                                                     out.println("<option value='" + i + "'>" + drop3.get(i) + "</option>");
@@ -195,22 +216,26 @@
             <table class="table table-striped table-dark">
                 <thead>
                     <tr>
-                        <th>Número Orden</th>
-                        <th>Proveedor</th>
-                        <th>Fecha Orden</th>
+                        <th>Número de Factura</th>
+                        <th>Serie</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Empleado</th>                        
                         <th>Fecha Ingreso</th>
                     </tr>
                 </thead>
-                <tbody id="tbl_compras">
-                    <%                        Compras compra = new Compras();
+                <tbody id="">
+                    <%                        Ventas venta = new Ventas();
                         DefaultTableModel tabla = new DefaultTableModel();
-                        tabla = compra.leer();
+                        tabla = venta.leer();
                         for (int t = 0; t < tabla.getRowCount(); t++) {
-                            out.println("<tr data-id=" + tabla.getValueAt(t, 0) + " data-id-prov=" + tabla.getValueAt(t, 2) + " data-id-p=" + tabla.getValueAt(t, 6) + " data-id-cant=" + tabla.getValueAt(t, 7) + " data-id-u=" + tabla.getValueAt(t, 8) + ">");
+                            out.println("<tr data-id=" + tabla.getValueAt(t, 0) + " data-id-c=" + tabla.getValueAt(t, 4) + " data-id-e=" + tabla.getValueAt(t, 5) +" data-id-p=" + tabla.getValueAt(t, 9) +" data-id-cant=" + tabla.getValueAt(t, 10) +" data-id-u=" + tabla.getValueAt(t, 11) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
+                            out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
-                            out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
-                            out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
+                            out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
+                            out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
+                            out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
 
                             out.println("</tr>");
 
@@ -228,40 +253,45 @@
         <script type="text/javascript">
                                             function limpiar() {
                                                 $("#txt_id").val(0);
-                                                $("#txt_orden").val('');
-                                                $("#drop_proveedor").val(0);
+                                                $("#txt_factura").val('');
+                                                $("#txt_serie").val('');
                                                 $("#txt_fecha").val('');
+                                                $("#drop_cliente").val(0);
+                                                $("#drop_empleado").val(0);
                                                 $("#txt_ingreso").val('');
                                                 $("#drop_producto").val(0);
                                                 $("#txt_cantidad").val('');
                                                 $("#txt_precio").val('');
                                             }
 
-                                            $('#tbl_compras').on('click', 'tr td', function (evt) {
-                                                var target, id, orden, fecha, proveedor, ingreso, producto, cantidad, precio;
+                                            $('#tbl_ventas').on('click', 'tr td', function (evt) {
+                                                var target, id, factura, serie, fecha, cliente, empleado, ingreso,producto,cantidad,precio;
                                                 target = $(event.target);
                                                 id = target.parent().data('id');
-                                                proveedor = target.parent().data('id-prov');
+                                                cliente = target.parent().data('id-c');
+                                                empleado = target.parent().data('id-e');
+                                                producto=target.parent().data('id-p');
+                                                cantidad=target.parent().data('id-cant');
+                                                precio=target.parent().data('id-u');
 
-                                                producto = target.parent().data('id-p');
-                                                cantidad = target.parent().data('id-cant');
-                                                precio = target.parent().data('id-u');
-
-                                                orden = target.parent("tr").find("td").eq(0).html();
+                                                factura = target.parent("tr").find("td").eq(0).html();
+                                                serie = target.parent("tr").find("td").eq(1).html();
                                                 fecha = target.parent("tr").find("td").eq(2).html();
-                                                ingreso = target.parent("tr").find("td").eq(3).html();
+                                                ingreso = target.parent("tr").find("td").eq(5).html();
 
                                                 $("#txt_id").val(id);
-                                                $("#txt_orden").val(orden);
-                                                $("#drop_proveedor").val(proveedor);
+                                                $("#txt_factura").val(factura);
+                                                $("#txt_serie").val(serie);
                                                 $("#txt_fecha").val(fecha);
+                                                $("#drop_cliente").val(cliente);
+                                                $("#drop_empleado").val(empleado);
                                                 $("#txt_ingreso").val(ingreso);
-
+                                                
                                                 $("#drop_producto").val(producto);
                                                 $("#txt_cantidad").val(cantidad);
                                                 $("#txt_precio").val(precio);
-
-
+                                                
+                                                
 
                                                 $("#modal_proveedor").modal('show');
                                             });

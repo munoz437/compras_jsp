@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -64,6 +65,23 @@ public class Proveedores {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+    
+     public HashMap drop() {
+        HashMap<String, String> drop = new HashMap();
+        try {
+            String query = "Select idProveedor,proveedor from proveedores ORDER by idProveedor ASC;";
+            cn = new Conexion();
+            cn.abrir_conexion();
+            ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+            while (consulta.next()) {
+                drop.put(consulta.getString("idProveedor"), consulta.getString("proveedor"));
+            }
+            cn.cerrar_conexion();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return drop;
     }
 
     public DefaultTableModel leer() {

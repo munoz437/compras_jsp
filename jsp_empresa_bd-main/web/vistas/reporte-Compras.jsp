@@ -16,7 +16,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Compras</title>
+        <title>Reportes Compras</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
         <style>
             body{
@@ -75,12 +75,11 @@
 
 
         <div class="container">
-            <h1>Formulario Compras</h1>
+            <h1>Reportes Compras</h1>
 
-            <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal_proveedor" onclick="limpiar()">Nuevo</button>
-
-            <a class="btn btn-danger " href="proveedores.jsp">Ingresar Proveedores</a> 
-
+            
+            <a  class="btn btn-success " href="javascript:window.print()"> Imprimir</a>
+            
 
             <div class="modal fade" id="modal_proveedor" role="dialog">
                 <div class="modal-dialog">
@@ -201,7 +200,7 @@
                         <th>Fecha Ingreso</th>
                     </tr>
                 </thead>
-                <tbody id="tbl_compras">
+                <tbody id="">
                     <%                        Compras compra = new Compras();
                         DefaultTableModel tabla = new DefaultTableModel();
                         tabla = compra.leer();

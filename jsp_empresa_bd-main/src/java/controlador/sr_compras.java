@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.CompraDetalle;
+import modelo.Compras;
 
 /**
  *
@@ -29,6 +31,9 @@ public class sr_compras extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    Compras compra;
+    CompraDetalle detalle;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -37,10 +42,53 @@ public class sr_compras extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sr_compras</title>");            
+            out.println("<title>Servlet sr_compras</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet sr_compras at " + request.getContextPath() + "</h1>");
+            int id = Integer.parseInt(request.getParameter("txt_id"));
+
+            compra = new Compras(id, Integer.parseInt(request.getParameter("txt_orden")), Integer.parseInt(request.getParameter("drop_proveedor")), request.getParameter("txt_fecha"), request.getParameter("txt_ingreso"));
+            detalle = new CompraDetalle(Integer.parseInt(request.getParameter("txt_orden")), Integer.parseInt(request.getParameter("drop_producto")), Integer.parseInt(request.getParameter("txt_cantidad")), Double.parseDouble(request.getParameter("txt_precio")));
+            //producto = new Producto();
+            // Boton agregar 
+            if ("agregar".equals(request.getParameter("btn_agregar"))) {
+                if (compra.agregar() > 0) {
+                    if (detalle.agregar() > 0) {
+                        //if (producto.modificarStock(Integer.parseInt(request.getParameter("drop_producto")), Integer.parseInt(request.getParameter("txt_cantidad"))) > 0) {
+                        response.sendRedirect("vistas/compras.jsp");
+                        //}
+                    }
+                } else {
+                    out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
+                    out.println("<a href='index.jsp'>Regresar...</a>");
+                }
+            }
+
+            // Boton modificar 
+            if ("modificar".equals(request.getParameter("btn_modificar"))) {
+                if (compra.modificar() > 0) {
+                    if (detalle.modificar()> 0) {
+                    response.sendRedirect("vistas/compras.jsp");
+                    }
+
+                } else {
+                    out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
+                    out.println("<a href='index.jsp'>Regresar...</a>");
+                }
+            }
+
+            // Boton eliminar 
+            if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
+                if (compra.eliminar() > 0) {
+                    if (detalle.eliminar() > 0) {
+                        response.sendRedirect("vistas/compras.jsp");
+                    }
+
+                } else {
+                    out.println("<h1> xxxxxxx No se Elimino xxxxxxxxxxxx </h1>");
+                    out.println("<a href='index.jsp'>Regresar...</a>");
+                }
+            }
             out.println("</body>");
             out.println("</html>");
         }

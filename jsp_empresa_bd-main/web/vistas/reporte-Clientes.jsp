@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Clientes</title>
+        <title>Reporte Clientes</title>
         <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
         <style>
             body{
@@ -68,10 +68,11 @@
 
 
         <div class="container">
-            <h1>Formulario Clientes</h1>
-
-            <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal_cliente" onclick="limpiar()">Nuevo</button>
-            <a class="btn btn-danger " href="ventas.jsp">Ingresar Venta</a> 
+            <h1>Reporte de  Clientes</h1>
+            
+            
+            <a  class="btn btn-success " href="javascript:window.print()"> Imprimir</a>
+            
 
             <div class="modal fade" id="modal_cliente" role="dialog">
                 <div class="modal-dialog">
@@ -145,13 +146,13 @@
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>NIT</th>
-                        <th>Genero</th>
+                       
                         <th>Telefono</th>
                         <th>Email</th>
                         <th>Ingreso</th>
                     </tr>
                 </thead>
-                <tbody id="tbl_clientes">
+                <tbody id="">
                     <%
                         Clientes cliente = new Clientes();
                         DefaultTableModel tabla = new DefaultTableModel();
@@ -161,7 +162,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
-                            out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
+                            //out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
 
